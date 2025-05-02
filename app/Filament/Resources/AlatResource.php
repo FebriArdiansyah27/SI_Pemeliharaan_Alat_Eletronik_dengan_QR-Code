@@ -19,7 +19,7 @@ class AlatResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = 'Manajemen Alat';
-
+    protected static ?string $navigationGroup = 'Manajemen Alat';
     public static function form(Form $form): Form
     {
         return $form
@@ -85,6 +85,7 @@ class AlatResource extends Resource
             'index' => Pages\ListAlats::route('/'),
             'create' => Pages\CreateAlat::route('/create'),
             'edit' => Pages\EditAlat::route('/{record}/edit'),
+            // Removed 'print-pdf' page registration because PrintAlatPdf is a Page, not a Resource Page with route() method
         ];
     }
 }

@@ -24,7 +24,7 @@ class PemeliharaanResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-wrench-screwdriver';
 
     protected static ?string $navigationLabel = 'Pemeliharaan Alat';
-
+    protected static ?string $navigationGroup = 'Manajemen Pemeliharaan Alat';
     public static function form(Form $form): Form
     {
         return $form
@@ -89,6 +89,14 @@ class PemeliharaanResource extends Resource
         return [];
     }
 
+/*************  ✨ Windsurf Command ⭐  *************/
+    /**
+     * Get the pages for the Pemeliharaan resource.
+     *
+     * @return array An array of routes for listing, creating, and editing Pemeliharaan records.
+     */
+
+/*******  d823de6d-4a30-48d3-b9fb-14706873f604  *******/
     public static function getPages(): array
     {
         return [

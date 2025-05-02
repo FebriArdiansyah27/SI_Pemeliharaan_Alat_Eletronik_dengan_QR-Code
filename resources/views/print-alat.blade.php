@@ -61,56 +61,59 @@
             max-width: 150px;
             max-height: 150px;
         }
+        .flex-container {
+            display: flex;
+            gap: 40px;
+            margin-top: 20px;
+        }
+        .qr-column {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .info-column {
+            flex: 2;
+        }
+        .no-print {
+            text-align: center;
+            margin-top: 20px;
+        }
+        @media print {
+            .no-print {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Informasi Pemeliharaan Alat</h1>
+    <h1>Informasi Alat</h1>
 
-    <div>
-        <table>
-            <tr><th>ID Alat</th><td>{{ $alat->alat_id }}</td></tr>
-            <tr><th>Nama Alat</th><td>{{ $alat->nama_alat }}</td></tr>
-            <tr><th>Lokasi</th><td>{{ $alat->lokasi }}</td></tr>
-            <tr><th>Kondisi</th><td>{{ $alat->kondisi }}</td></tr>
-            <!-- Menampilkan QR Code secara dinamis -->
-            <tr><th>QR Code</th>
-                <td class="qr-code">
-                    @if (!empty($alat->alat_id))
-                        {!! QrCode::size(150)->generate($alat->alat_id) !!}
-                    @else
-                        <p class="text-gray-500">QR Code belum tersedia</p>
-                    @endif
-                </td>
-            </tr>
-        </table>
+    <div class="flex-container">
+        <div class="qr-column">
+            <div class="qr-code">
+                @if (!empty($alat->alat_id))
+                    {!! QrCode::size(150)->generate($alat->alat_id) !!}
+                @else
+                    <p class="text-gray-500">QR Code belum tersedia</p>
+                @endif
+            </div>
+        </div>
+        <div class="info-column">
+            <table>
+                <tr><th>ID Alat</th><td>{{ $alat->alat_id }}</td></tr>
+                <tr><th>Nama Alat</th><td>{{ $alat->nama_alat }}</td></tr>
+                <tr><th>Lokasi</th><td>{{ $alat->lokasi }}</td></tr>
+                <tr><th>Kondisi</th><td>{{ $alat->kondisi }}</td></tr>
+                <tr><th>Deskripsi</th><td>{{ $alat->deskripsi }}</td></tr>
+            </table>
+        </div>
     </div>
-
-    <h2>Riwayat Pemeliharaan</h2>
-
-    @if ($alat->pemeliharaans->isEmpty())
-        <p class="empty-message">Belum ada data pemeliharaan untuk alat ini.</p>
-    @else
-        <table>
-            <thead>
-                <tr>
-                    <th>Tanggal</th>
-                    <th>Uraian</th>
-                    <th>Kondisi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($alat->pemeliharaans as $pemeliharaan)
-                    <tr>
-                        <td>{{ \Carbon\Carbon::parse($pemeliharaan->tanggal)->format('d/m/Y') }}</td>
-                        <td>{{ $pemeliharaan->uraian_pemeliharaan }}</td>
-                        <td>{{ $pemeliharaan->kondisi }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @endif
+    <div class="no-print">
+        <button onclick="window.print()">Cetak Halaman</button>
+    </div>
 </div>
 
 </body>

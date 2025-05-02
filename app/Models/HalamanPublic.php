@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class HalamanPublic extends Model
 {
@@ -11,7 +13,7 @@ class HalamanPublic extends Model
 
     protected $primaryKey = 'halaman_id';
 
-    protected $fillable = ['alat_id', 'url_qrcode'];
+    protected $fillable = ['alat_id', 'url_qrcode', 'qr_code'];
 
     protected static function boot()
     {
@@ -29,7 +31,28 @@ class HalamanPublic extends Model
 
     public function alat()
     {
-        // Pastikan relasi pakai foreignKey dan ownerKey yang benar
+        // Relasi ke tabel alat, foreign key: alat_id, owner key: alat_id
         return $this->belongsTo(Alat::class, 'alat_id', 'alat_id');
+    }
+
+    public function generateQrCode()
+    {
+        if (!$this->url_qrcode) return;
+
+        $filename = 'qr-codes/' . $this->alat_id . '.svg';
+
+        // Simpan file SVG ke storage/app/public/qr-codes
+        Storage::disk('public')->put(
+            $filename,
+            QrCode::format('svg')->size(200)->generate($this->url_qrcode)
+        );
+
+        $this->qr_code = $filename;
+        $this->save();
+    }
+
+    public function getQrCodeUrlAttribute()
+    {
+        return $this->qr_code ? asset('storage/' . $this->qr_code) : null;
     }
 }

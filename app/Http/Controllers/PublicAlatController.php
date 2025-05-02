@@ -16,4 +16,15 @@ class PublicAlatController extends Controller
 
         return view('public-informasi-alat', compact('alat'));
     }
+
+    public function print($alat_id)
+    {
+        $alat = Alat::with('pemeliharaans')->where('alat_id', $alat_id)->first();
+
+        if (!$alat) {
+            abort(404, 'Alat tidak ditemukan');
+        }
+
+        return view('print-alat', compact('alat'));
+    }
 }

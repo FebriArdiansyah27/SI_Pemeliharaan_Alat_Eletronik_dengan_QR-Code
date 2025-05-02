@@ -12,6 +12,7 @@ use Filament\Tables\Table;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
+use SimpleSoftwareIO\QRCode\Facades\QRCode;
 
 class HalamanPublicResource extends Resource
 {
@@ -19,7 +20,7 @@ class HalamanPublicResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-qr-code';
     protected static ?string $navigationLabel = 'Manajemen QR Code Publik';
     protected static ?string $pluralLabel = 'QR Code Publik';
-    protected static ?string $navigationGroup = 'Pemeliharaan Alat';
+    protected static ?string $navigationGroup = 'Manajemen Halaman Public';
 
     public static function form(Form $form): Form
     {
@@ -29,7 +30,17 @@ class HalamanPublicResource extends Resource
                 ->relationship('alat', 'alat_id')
                 ->searchable()
                 ->required()
-                ->live(),
+                ->unique(ignoreRecord: true)
+                ->live()
+                ->afterStateUpdated(function (callable $set, $state) {
+                    if ($state) {
+                        $baseUrl = config('app.url');
+                        $publicUrl = "{$baseUrl}/informasi-pemeliharaan-alat/{$state}";
+                        $set('url_qrcode', $publicUrl);
+                    } else {
+                        $set('url_qrcode', null);
+                    }
+                }),
 
             TextInput::make('url_qrcode')
                 ->label('URL Halaman Public (Auto)')
@@ -51,21 +62,32 @@ class HalamanPublicResource extends Resource
                     ->copyable()
                     ->wrap()
                     ->formatStateUsing(function ($state) {
-                        return '<a href="' . $state . '" target="_blank" class="text-primary underline">' . $state . '</a>';
+                        return is_string($state)
+                            ? '<a href="' . $state . '" target="_blank" class="text-primary underline">' . $state . '</a>'
+                            : '';
                     })
                     ->html(),
 
-                TextColumn::make('QR Code')
+                TextColumn::make('qr_code')
                     ->label('QR Code')
-                    ->formatStateUsing(function ($record) {
-                        $qrUrl = 'https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=' . urlencode($record->url_qrcode);
-                        return '<img class="qr-code-image" src="' . $qrUrl . '" width="80" id="qr-code-' . $record->id . '">';
+                    ->formatStateUsing(function ($state) {
+                        return $state
+                            ? '<img src="' . asset('storage/' . $state) . '" width="100" height="100" alt="QR Code">'
+                            : '';
                     })
                     ->html(),
             ])
-            ->actions([
-                Tables\Actions\DeleteAction::make(),
-            ])
+->actions([
+    Tables\Actions\DeleteAction::make(),
+    Tables\Actions\Action::make('generateQr')
+        ->label('Generate QR')
+        ->action(function (HalamanPublic $record, Tables\Actions\Action $action) {
+            $record->generateQrCode();
+            $action->success();
+        })
+        ->requiresConfirmation()
+        ->color('success'),
+])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
@@ -74,16 +96,14 @@ class HalamanPublicResource extends Resource
     public static function mutateFormDataBeforeCreate(array $data): array
     {
         if (!empty($data['alat_id'])) {
-            $alatIds = HalamanPublic::pluck('alat_id')->toArray();
             $baseUrl = config('app.url');
+            $publicUrl = "{$baseUrl}/informasi-pemeliharaan-alat/{$data['alat_id']}";
+            $data['url_qrcode'] = $publicUrl;
 
-            if (!in_array($data['alat_id'], $alatIds)) {
-                $publicUrl = "{$baseUrl}/informasi-pemeliharaan-alat/{$data['alat_id']}";
-                $data['url_qrcode'] = $publicUrl;
-            } else {
-                $data['url_qrcode'] = '';
-            }
+            $qrImage = QRCode::format('png')->size(200)->generate($publicUrl);
+            $data['qr_code_image'] = base64_encode($qrImage);
         }
+
         return $data;
     }
 
@@ -93,6 +113,9 @@ class HalamanPublicResource extends Resource
             $baseUrl = config('app.url');
             $publicUrl = "{$baseUrl}/informasi-pemeliharaan-alat/{$data['alat_id']}";
             $data['url_qrcode'] = $publicUrl;
+
+            $qrImage = QRCode::format('png')->size(200)->generate($publicUrl);
+            $data['qr_code_image'] = base64_encode($qrImage);
         }
 
         return $data;
