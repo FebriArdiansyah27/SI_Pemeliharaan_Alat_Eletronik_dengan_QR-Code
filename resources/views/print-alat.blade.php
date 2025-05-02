@@ -16,6 +16,7 @@
             padding: 30px;
             background-color: #fff;
             border-radius: 12px;
+            border:#000000 1px solid;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         h1, h2 {
@@ -106,8 +107,6 @@
                 <tr><th>ID Alat</th><td>{{ $alat->alat_id }}</td></tr>
                 <tr><th>Nama Alat</th><td>{{ $alat->nama_alat }}</td></tr>
                 <tr><th>Lokasi</th><td>{{ $alat->lokasi }}</td></tr>
-                <tr><th>Kondisi</th><td>{{ $alat->kondisi }}</td></tr>
-                <tr><th>Deskripsi</th><td>{{ $alat->deskripsi }}</td></tr>
             </table>
         </div>
     </div>
