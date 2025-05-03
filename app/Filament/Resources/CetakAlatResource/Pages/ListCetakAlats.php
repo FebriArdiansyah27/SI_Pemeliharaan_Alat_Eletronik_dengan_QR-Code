@@ -23,4 +23,14 @@ class ListCetakAlats extends ListRecords
         $this->alatIdToPrint = $payload['alatId'];
         $this->dispatchBrowserEvent('show-print-modal');
     }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            \Filament\Pages\Actions\Action::make('printAll')
+                ->label('Cetak Semua Alat')
+                ->url(route('cetak-semua-alat.printAll'))
+                ->openUrlInNewTab(),
+        ];
+    }
 }

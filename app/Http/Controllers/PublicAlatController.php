@@ -27,4 +27,11 @@ class PublicAlatController extends Controller
 
         return view('print-alat', compact('alat'));
     }
+
+    public function printAll()
+    {
+        $alats = Alat::with('pemeliharaans')->get();
+
+        return view('print-all-alat', compact('alats'));
+    }
 }

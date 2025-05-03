@@ -11,6 +11,7 @@ Route::get('/informasi-pemeliharaan-alat/{alat_id}', [PublicAlatController::clas
 
 Route::get('/cetak-alat/{alat_id}', [PublicAlatController::class, 'print'])->name('cetak-alat.print');
 
+Route::get('/cetak-semua-alat', [PublicAlatController::class, 'printAll'])->name('cetak-semua-alat.printAll');
 
 use App\Models\HalamanPublic;
 

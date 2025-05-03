@@ -12,7 +12,6 @@ use Filament\Tables\Table;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
-use SimpleSoftwareIO\QRCode\Facades\QRCode;
 
 class HalamanPublicResource extends Resource
 {
@@ -77,48 +76,21 @@ class HalamanPublicResource extends Resource
                     })
                     ->html(),
             ])
-->actions([
-    Tables\Actions\DeleteAction::make(),
-    Tables\Actions\Action::make('generateQr')
-        ->label('Generate QR')
-        ->action(function (HalamanPublic $record, Tables\Actions\Action $action) {
-            $record->generateQrCode();
-            $action->success();
-        })
-        ->requiresConfirmation()
-        ->color('success'),
-])
+            ->actions([
+                Tables\Actions\DeleteAction::make(),
+
+                Tables\Actions\Action::make('generateQr')
+                    ->label('Generate QR')
+                    ->action(function (HalamanPublic $record, Tables\Actions\Action $action) {
+                        $record->generateQrCode();
+                        $action->success('QR Code berhasil dibuat');
+                    })
+                    ->requiresConfirmation()
+                    ->color('success'),
+            ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }
-
-    public static function mutateFormDataBeforeCreate(array $data): array
-    {
-        if (!empty($data['alat_id'])) {
-            $baseUrl = config('app.url');
-            $publicUrl = "{$baseUrl}/informasi-pemeliharaan-alat/{$data['alat_id']}";
-            $data['url_qrcode'] = $publicUrl;
-
-            $qrImage = QRCode::format('png')->size(200)->generate($publicUrl);
-            $data['qr_code_image'] = base64_encode($qrImage);
-        }
-
-        return $data;
-    }
-
-    public static function mutateFormDataBeforeSave(array $data): array
-    {
-        if (!empty($data['alat_id'])) {
-            $baseUrl = config('app.url');
-            $publicUrl = "{$baseUrl}/informasi-pemeliharaan-alat/{$data['alat_id']}";
-            $data['url_qrcode'] = $publicUrl;
-
-            $qrImage = QRCode::format('png')->size(200)->generate($publicUrl);
-            $data['qr_code_image'] = base64_encode($qrImage);
-        }
-
-        return $data;
     }
 
     public static function getRelations(): array
