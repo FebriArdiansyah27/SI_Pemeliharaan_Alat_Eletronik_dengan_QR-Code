@@ -18,7 +18,7 @@ class HalamanPublicResource extends Resource
     protected static ?string $model = HalamanPublic::class;
     protected static ?string $navigationIcon = 'heroicon-o-qr-code';
     protected static ?string $navigationLabel = 'Manajemen QR Code Publik';
-    protected static ?string $pluralLabel = 'QR Code Publik';
+    protected static ?string $pluralLabel = 'Manajemen QR Code Publik';
     protected static ?string $navigationGroup = 'Manajemen Halaman Public';
 
     public static function form(Form $form): Form

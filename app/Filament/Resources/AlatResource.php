@@ -17,7 +17,7 @@ class AlatResource extends Resource
     protected static ?string $model = Alat::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $pluralLabel = 'Manajemen Data Alat';
     protected static ?string $navigationLabel = 'Manajemen Alat';
     protected static ?string $navigationGroup = 'Manajemen Alat';
     public static function form(Form $form): Form
@@ -60,12 +60,13 @@ class AlatResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
+                Tables\Actions\EditAction::make() ->color('primary'),
+                Tables\Actions\DeleteAction::make() -> color('danger')
                     ->requiresConfirmation()
                     ->modalHeading('Konfirmasi Hapus')
                     ->modalSubheading('Apakah Anda yakin ingin menghapus data ini?')
                     ->modalButton('Hapus'),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

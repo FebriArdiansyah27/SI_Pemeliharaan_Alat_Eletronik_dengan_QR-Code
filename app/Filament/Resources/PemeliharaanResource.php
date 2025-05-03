@@ -31,7 +31,7 @@ class PemeliharaanResource extends Resource
             ->schema([
                 Select::make('alat_id')
                     ->label('Pilih Alat')
-                    ->relationship('alat', 'nama_alat')
+                    ->relationship('alat', 'alat_id')
                     ->searchable()
                     ->required(),
 
@@ -54,8 +54,8 @@ class PemeliharaanResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('alat.nama_alat')
-                    ->label('Nama Alat')
+                TextColumn::make('alat.alat_id')
+                    ->label('ID Alat')
                     ->searchable(),
 
                 TextColumn::make('tanggal')

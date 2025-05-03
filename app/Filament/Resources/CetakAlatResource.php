@@ -15,7 +15,7 @@ class CetakAlatResource extends Resource
     protected static ?string $model = Alat::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-printer';
-
+    protected static ?string $pluralLabel = 'CetaK Alat';
     protected static ?string $navigationLabel = 'Cetak Alat';
 
     protected static ?string $navigationGroup = 'Manajemen Alat';
