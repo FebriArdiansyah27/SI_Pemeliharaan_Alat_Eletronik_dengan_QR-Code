@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Filament\Resources\CetakAlatResource\Pages;
+namespace App\Filament\Resources\CetakPemeliharaanResource\Pages;
 
-use App\Filament\Resources\CetakAlatResource;
+use App\Filament\Resources\CetakPemeliharaanResource;
 use Filament\Resources\Pages\ListRecords;
 
-class ListCetakAlats extends ListRecords
+class ListCetakPemeliharaans extends ListRecords
 {
-    protected static string $resource = CetakAlatResource::class;
+    protected static string $resource = CetakPemeliharaanResource::class;
 
-    public $alatIdToPrint = null;
+    public $pemeliharaanIdToPrint = null;
 
     protected function getListeners(): array
     {
@@ -20,7 +20,7 @@ class ListCetakAlats extends ListRecords
 
     public function openPrintModal($payload)
     {
-        $this->alatIdToPrint = $payload['alatId'];
+        $this->pemeliharaanIdToPrint = $payload['pemeliharaanId'];
         $this->dispatchBrowserEvent('show-print-modal');
     }
 
@@ -28,8 +28,8 @@ class ListCetakAlats extends ListRecords
     {
         return [
             \Filament\Pages\Actions\Action::make('downloadAllPdf')
-                ->label('Download Semua Alat')
-                ->url(route('cetak-semua-alat.downloadPdf'))
+                ->label('Download Semua Pemeliharaan PDF')
+                ->url(route('cetak-semua-pemeliharaan.downloadPdf'))
                 ->openUrlInNewTab(),
         ];
     }

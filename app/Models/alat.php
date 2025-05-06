@@ -28,10 +28,18 @@ class Alat extends Model
         'lokasi',
         'kondisi',
     ];
+
+    // Removed kondisiAlat relationship as 'kondisi_alat_id' column does not exist
+    // public function kondisiAlat()
+    // {
+    //     return $this->belongsTo(KondisiAlat::class, 'kondisi_alat_id');
+    // }
+
     // Relasi banyak pemeliharaan
     public function pemeliharaans()
         {
             return $this->hasMany(Pemeliharaan::class, 'alat_id');
         }
+
 
 }

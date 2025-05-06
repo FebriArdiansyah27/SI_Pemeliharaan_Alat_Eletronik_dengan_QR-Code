@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cetak Semua Alat</title>
+    <title>Cetak Semua Data Pemeliharaan</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -38,7 +38,8 @@
             color: #2d3748;
         }
         .no-print {
-           display: none;
+            text-align: center;
+            margin-top: 20px;
         }
         @media print {
             .no-print {
@@ -48,9 +49,9 @@
     </style>
 </head>
 <body>
-    <h1>Cetak Semua Data Alat</h1>
+    <h1>Semua Data Pemeliharaan Alat</h1>
 
-    <p>Total data alat: {{ $alats->count() }}</p>
+    <p>Total data pemeliharaan: {{ $pemeliharaans->count() }}</p>
 
     <table>
         <thead>
@@ -59,22 +60,25 @@
                 <th>ID Alat</th>
                 <th>Nama Alat</th>
                 <th>Lokasi Alat</th>
+                <th>Tanggal Pemeliharaan</th>
+                <th>Uraian Pemeliharaan</th>
+                <th>Kondisi Setelah Pemeliharaan</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($alats as $index => $alat)
+            @foreach ($pemeliharaans as $index => $pemeliharaan)
             <tr>
                 <td>{{ $index + 1 }}</td>  <!-- Kolom nomor urut -->
-                <td>{{ $alat->alat_id }}</td>
-                <td>{{ $alat->nama_alat }}</td>
-                <td>{{ $alat->lokasi }}</td>
+                <td>{{ optional($pemeliharaan->alat)->alat_id ?? 'N/A' }}</td>
+                <td>{{ optional($pemeliharaan->alat)->nama_alat ?? 'N/A' }}</td>
+                <td>{{ optional($pemeliharaan->alat)->lokasi ?? 'N/A' }}</td>
+                <td>{{ $pemeliharaan->tanggal }}</td>
+                <td>{{ $pemeliharaan->uraian_pemeliharaan }}</td>
+                <td>{{ $pemeliharaan->kondisi }}</td>
             </tr>
             @endforeach
         </tbody>
     </table>
 
-    <div class="no-print">
-        <button onclick="window.print()">Cetak Halaman</button>
-    </div>
 </body>
 </html>

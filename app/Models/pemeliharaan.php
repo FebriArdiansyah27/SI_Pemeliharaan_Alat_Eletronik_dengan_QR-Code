@@ -16,6 +16,7 @@ class Pemeliharaan extends Model
         'tanggal',
         'uraian_pemeliharaan',
         'kondisi',
+        'kondisi_alat_id',
     ];
 
     /**
@@ -24,5 +25,13 @@ class Pemeliharaan extends Model
     public function alat()
     {
         return $this->belongsTo(Alat::class, 'alat_id', 'alat_id');
+    }
+
+    /**
+     * Relasi ke model KondisiAlat
+     */
+    public function kondisiAlat()
+    {
+        return $this->belongsTo(KondisiAlat::class, 'kondisi_alat_id');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CetakAlatResource\Pages;
+use App\Filament\Resources\CetakAlatDenganQrResource\Pages;
 use App\Models\Alat;
 use Filament\Forms;
 use Filament\Resources\Resource;
@@ -10,13 +10,14 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 
-class CetakAlatResource extends Resource
+class CetakAlatDenganQrResource extends Resource
+
 {
     protected static ?string $model = Alat::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-printer';
-    protected static ?string $pluralLabel = 'CetaK Alat';
-    protected static ?string $navigationLabel = 'Cetak Alat';
+
+    protected static ?string $navigationLabel = 'Cetak Alat Dengan Qr';
 
     protected static ?string $navigationGroup = 'Manajemen Data Alat';
 
@@ -29,9 +30,6 @@ class CetakAlatResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('no')
-                    ->label('No')
-                    ->rowIndex(),
                 TextColumn::make('alat_id')->label('ID Alat')->sortable()->searchable(),
                 TextColumn::make('nama_alat')->label('Nama Alat')->sortable()->searchable(),
                 TextColumn::make('lokasi')->label('Lokasi')->sortable()->searchable(),
@@ -40,11 +38,10 @@ class CetakAlatResource extends Resource
                 //
             ])
             ->actions([
-            
-                Tables\Actions\Action::make('downloadPdf')
-                    ->label('Download PDF')
-                    ->icon('heroicon-o-arrow-down-tray')
-                    ->action(fn ($record) => redirect(route('cetak-alat.downloadPdf', ['alat_id' => $record->alat_id]))),
+            Tables\Actions\Action::make('print')
+                ->label('Cetak')
+                ->icon('heroicon-o-printer')
+                ->action(fn ($record) => redirect(route('cetak-alat.print', ['alat_id' => $record->alat_id]))),
             ]);
     }
 
@@ -56,7 +53,7 @@ class CetakAlatResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCetakAlats::route('/'),
+            'index' => Pages\ListCetakAlatDenganQrs::route('/'),
         ];
     }
 }

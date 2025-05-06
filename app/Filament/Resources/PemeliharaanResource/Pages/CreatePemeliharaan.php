@@ -13,15 +13,15 @@ class CreatePemeliharaan extends CreateRecord
     /**
      * Ubah kondisi alat setelah data pemeliharaan dibuat
      */
-    protected function mutateFormDataBeforeCreate(array $data): array
-    {
-        // Update kondisi pada tabel alat berdasarkan pemeliharaan
-        $alat = Alat::where('alat_id', $data['alat_id'])->first();
-        if ($alat) {
-            $alat->kondisi = $data['kondisi'];
-            $alat->save();
-        }
+            protected function mutateFormDataBeforeCreate(array $data): array
+            {
+                // Update kondisi pada tabel alat berdasarkan pemeliharaan
+                $alat = Alat::where('alat_id', $data['alat_id'])->first();
+                if ($alat) {
+                    $alat->kondisi = $data['kondisi'];
+                    $alat->save();
+                }
 
-        return $data;
-    }
+                return $data;
+            }
 }

@@ -31,8 +31,7 @@ class PemeliharaanResource extends Resource
             ->schema([
                 Select::make('alat_id')
                     ->label('Pilih Alat')
-                    ->relationship('alat', 'alat_id')
-                    ->searchable()
+                    ->options(Alat::all()->pluck('alat_id', 'alat_id')->toArray())
                     ->required(),
 
                 DatePicker::make('tanggal')
@@ -43,10 +42,14 @@ class PemeliharaanResource extends Resource
                     ->label('Uraian Pemeliharaan')
                     ->required(),
 
-                TextInput::make('kondisi')
+                Select::make('kondisi')
                     ->label('Kondisi Setelah Pemeliharaan')
-                    ->required()
-                    ->maxLength(100),
+                    ->options([
+                        'baik' => 'Baik',
+                        'rusak' => 'Rusak',
+                        'dipelihara' => 'Dipelihara',
+                    ])
+                    ->required(),
             ]);
     }
 
@@ -54,6 +57,9 @@ class PemeliharaanResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('no')
+                    ->label('No')
+                    ->rowIndex(),
                 TextColumn::make('alat.alat_id')
                     ->label('ID Alat')
                     ->searchable(),
@@ -66,7 +72,7 @@ class PemeliharaanResource extends Resource
                     ->limit(30),
 
                 TextColumn::make('kondisi')
-                    ->label('Kondisi Setelah'),
+                    ->label('Kondisi'),
             ])
             ->filters([])
             ->actions([

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\HalamanPublicResource\Pages;
 use App\Models\HalamanPublic;
+use App\Models\Alat;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,7 +13,11 @@ use Filament\Tables\Table;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
-
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\EditAction;
 class HalamanPublicResource extends Resource
 {
     protected static ?string $model = HalamanPublic::class;
@@ -52,6 +57,10 @@ class HalamanPublicResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('no')
+                    ->label('No')
+                    ->rowIndex(),
+
                 TextColumn::make('alat.alat_id')
                     ->label('ID Alat')
                     ->searchable(),
@@ -62,7 +71,7 @@ class HalamanPublicResource extends Resource
                     ->wrap()
                     ->formatStateUsing(function ($state) {
                         return is_string($state)
-                            ? '<a href="' . $state . '" target="_blank" class="text-primary underline">' . $state . '</a>'
+                            ? '<a href="' . $state . '" target="_blank" class="underline text-primary">' . $state . '</a>'
                             : '';
                     })
                     ->html(),
@@ -77,20 +86,28 @@ class HalamanPublicResource extends Resource
                     ->html(),
             ])
             ->actions([
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
 
-                Tables\Actions\Action::make('generateQr')
+                Action::make('generateQr')
                     ->label('Generate QR')
-                    ->action(function (HalamanPublic $record, Tables\Actions\Action $action) {
+                    ->action(function (HalamanPublic $record, Action $action) {
                         $record->generateQrCode();
-                        $action->success('QR Code berhasil dibuat');
+                        Notification::make()
+                            ->title('QR Code berhasil dibuat')
+                            ->success()
+                            ->send();
                     })
                     ->requiresConfirmation()
                     ->color('success'),
+
+
+
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                DeleteBulkAction::make(),
             ]);
+            // HeaderActions sudah DIHAPUS
     }
 
     public static function getRelations(): array
@@ -104,6 +121,12 @@ class HalamanPublicResource extends Resource
             'index' => Pages\ListHalamanPublics::route('/'),
             'create' => Pages\CreateHalamanPublic::route('/create'),
             'edit' => Pages\EditHalamanPublic::route('/{record}/edit'),
+            'printQrCode' => Pages\PrintQrCode::route('/print-qr-code/{record}'),
+            'printQrCodeDuplicate' => Pages\PrintQrCodeDuplicate::route('/print-qr-code-duplicate/{record}'),
         ];
     }
 }
+
+
+
+

@@ -78,7 +78,7 @@
             <tr><th>QR Code</th>
                 <td class="qr-code">
                     @if (!empty($alat->alat_id))
-                        {!! QrCode::size(150)->generate($alat->alat_id) !!}
+                    {!! QrCode::size(120)->generate(url('/informasi-pemeliharaan-alat/' . $alat->alat_id)) !!}
                     @else
                         <p class="text-gray-500">QR Code belum tersedia</p>
                     @endif

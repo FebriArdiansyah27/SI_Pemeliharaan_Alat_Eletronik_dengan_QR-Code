@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 
@@ -19,7 +20,7 @@ class AlatResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $pluralLabel = 'Manajemen Data Alat';
     protected static ?string $navigationLabel = 'Manajemen Alat';
-    protected static ?string $navigationGroup = 'Manajemen Alat';
+    protected static ?string $navigationGroup = 'Manajemen Data Alat';
     public static function form(Form $form): Form
     {
         return $form
@@ -40,10 +41,17 @@ class AlatResource extends Resource
                     ->required()
                     ->maxLength(225),
 
-                TextInput::make('kondisi')
-                    ->label('Kondisi')
-                    ->required()
-                    ->maxLength(255),
+
+                    Select::make('kondisi')
+                    ->label('Kondisi Setelah Pemeliharaan')
+                    ->options([
+                        'baik' => 'Baik',
+                        'rusak' => 'Rusak',
+                        'dipelihara' => 'Dipelihara',
+                    ])
+                    ->required(),
+
+                // Removed the old 'kondisi' text input replaced with above
             ]);
     }
 
@@ -51,6 +59,9 @@ class AlatResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('no')
+                    ->label('No')
+                    ->rowIndex(),
                 TextColumn::make('alat_id')->label('ID Alat')->sortable()->searchable(),
                 TextColumn::make('nama_alat')->label('Nama Alat')->sortable()->searchable(),
                 TextColumn::make('lokasi')->label('Lokasi')->sortable()->searchable(),
