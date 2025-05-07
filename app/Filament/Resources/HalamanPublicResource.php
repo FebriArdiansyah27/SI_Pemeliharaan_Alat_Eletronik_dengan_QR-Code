@@ -18,6 +18,7 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\EditAction;
+
 class HalamanPublicResource extends Resource
 {
     protected static ?string $model = HalamanPublic::class;
@@ -57,9 +58,7 @@ class HalamanPublicResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('no')
-                    ->label('No')
-                    ->rowIndex(),
+                TextColumn::make('no')->label('No')->rowIndex(),
 
                 TextColumn::make('alat.alat_id')
                     ->label('ID Alat')
@@ -100,14 +99,10 @@ class HalamanPublicResource extends Resource
                     })
                     ->requiresConfirmation()
                     ->color('success'),
-
-
-
             ])
             ->bulkActions([
                 DeleteBulkAction::make(),
             ]);
-            // HeaderActions sudah DIHAPUS
     }
 
     public static function getRelations(): array
@@ -125,8 +120,31 @@ class HalamanPublicResource extends Resource
             'printQrCodeDuplicate' => Pages\PrintQrCodeDuplicate::route('/print-qr-code-duplicate/{record}'),
         ];
     }
+
+    // === Hak akses (HANYA ADMIN) ===
+
+    public static function canViewAny(): bool
+    {
+        return auth('web')->check() && auth('web')->user()->role === 'admin';
+    }
+
+    public static function canView($record): bool
+    {
+        return auth('web')->check() && auth('web')->user()->role === 'admin';
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth('web')->check() && auth('web')->user()->role === 'admin';
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth('web')->check() && auth('web')->user()->role === 'admin';
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth('web')->check() && auth('web')->user()->role === 'admin';
+    }
 }
-
-
-
-

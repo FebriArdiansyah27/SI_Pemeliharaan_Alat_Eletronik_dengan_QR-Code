@@ -40,7 +40,7 @@ class CetakAlatResource extends Resource
                 //
             ])
             ->actions([
-            
+
                 Tables\Actions\Action::make('downloadPdf')
                     ->label('Download PDF')
                     ->icon('heroicon-o-arrow-down-tray')
@@ -58,5 +58,30 @@ class CetakAlatResource extends Resource
         return [
             'index' => Pages\ListCetakAlats::route('/'),
         ];
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth('web')->check() && auth('web')->user()->role === 'admin';
+    }
+
+    public static function canView($record): bool
+    {
+        return auth('web')->check() && auth('web')->user()->role === 'admin';
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth('web')->check() && auth('web')->user()->role === 'admin';
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth('web')->check() && auth('web')->user()->role === 'admin';
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth('web')->check() && auth('web')->user()->role === 'admin';
     }
 }

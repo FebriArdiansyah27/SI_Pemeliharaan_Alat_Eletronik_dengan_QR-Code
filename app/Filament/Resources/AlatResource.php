@@ -21,63 +21,54 @@ class AlatResource extends Resource
     protected static ?string $pluralLabel = 'Manajemen Data Alat';
     protected static ?string $navigationLabel = 'Manajemen Alat';
     protected static ?string $navigationGroup = 'Manajemen Data Alat';
+
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                TextInput::make('alat_id')
-                    ->label('ID Alat')
-                    ->required()
-                    ->maxLength(20)
-                    ->unique(ignoreRecord: true), // Hindari duplikasi ID saat edit/create
+        return $form->schema([
+            TextInput::make('alat_id')
+                ->label('ID Alat')
+                ->required()
+                ->maxLength(20)
+                ->unique(ignoreRecord: true),
 
-                TextInput::make('nama_alat')
-                    ->label('Nama Alat')
-                    ->required()
-                    ->maxLength(225),
+            TextInput::make('nama_alat')
+                ->label('Nama Alat')
+                ->required()
+                ->maxLength(225),
 
-                TextInput::make('lokasi')
-                    ->label('Lokasi')
-                    ->required()
-                    ->maxLength(225),
+            TextInput::make('lokasi')
+                ->label('Lokasi')
+                ->required()
+                ->maxLength(225),
 
-
-                    Select::make('kondisi')
-                    ->label('Kondisi Setelah Pemeliharaan')
-                    ->options([
-                        'baik' => 'Baik',
-                        'rusak' => 'Rusak',
-                        'dipelihara' => 'Dipelihara',
-                    ])
-                    ->required(),
-
-                // Removed the old 'kondisi' text input replaced with above
-            ]);
+            Select::make('kondisi')
+                ->label('Kondisi Setelah Pemeliharaan')
+                ->options([
+                    'baik' => 'Baik',
+                    'rusak' => 'Rusak',
+                    'dipelihara' => 'Dipelihara',
+                ])
+                ->required(),
+        ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('no')
-                    ->label('No')
-                    ->rowIndex(),
+                TextColumn::make('no')->label('No')->rowIndex(),
                 TextColumn::make('alat_id')->label('ID Alat')->sortable()->searchable(),
                 TextColumn::make('nama_alat')->label('Nama Alat')->sortable()->searchable(),
                 TextColumn::make('lokasi')->label('Lokasi')->sortable()->searchable(),
                 TextColumn::make('kondisi')->label('Kondisi')->sortable()->searchable(),
             ])
-            ->filters([
-                //
-            ])
             ->actions([
-                Tables\Actions\EditAction::make() ->color('primary'),
-                Tables\Actions\DeleteAction::make() -> color('danger')
+                Tables\Actions\EditAction::make()->color('primary'),
+                Tables\Actions\DeleteAction::make()->color('danger')
                     ->requiresConfirmation()
                     ->modalHeading('Konfirmasi Hapus')
                     ->modalSubheading('Apakah Anda yakin ingin menghapus data ini?')
                     ->modalButton('Hapus'),
-
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -97,7 +88,33 @@ class AlatResource extends Resource
             'index' => Pages\ListAlats::route('/'),
             'create' => Pages\CreateAlat::route('/create'),
             'edit' => Pages\EditAlat::route('/{record}/edit'),
-            // Removed 'print-pdf' page registration because PrintAlatPdf is a Page, not a Resource Page with route() method
         ];
+    }
+
+    // === Hak akses ===
+
+    public static function canViewAny(): bool
+    {
+        return auth('web')->check();
+    }
+
+    public static function canView($record): bool
+    {
+        return auth('web')->check();
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth('web')->check() && auth('web')->user()->role === 'admin';
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth('web')->check() && auth('web')->user()->role === 'admin';
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth('web')->check() && auth('web')->user()->role === 'admin';
     }
 }
