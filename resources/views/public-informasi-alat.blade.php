@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon" />
     <title>Informasi Alat - {{ $alat->nama_alat }}</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
     <style>

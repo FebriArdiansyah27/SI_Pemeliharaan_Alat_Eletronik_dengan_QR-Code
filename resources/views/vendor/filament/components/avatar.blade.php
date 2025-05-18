@@ -1,6 +1,6 @@
 @props([
     'circular' => true,
-    'size' => 'md',
+    'size' => 'lg',
 ])
 
 <img

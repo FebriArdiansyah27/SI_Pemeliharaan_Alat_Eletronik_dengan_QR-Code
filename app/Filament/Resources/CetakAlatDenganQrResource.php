@@ -16,6 +16,7 @@ class CetakAlatDenganQrResource extends Resource
     protected static ?string $model = Alat::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-printer';
+    protected static ?string $pluralLabel = 'CetaK Alat Dengan QR';
     protected static ?string $navigationLabel = 'Cetak Alat Dengan QR';
     protected static ?string $navigationGroup = 'Manajemen Data Alat';
 

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Cetak Semua Alat</title>
+    <link rel="icon" href="{{ asset('images/favicon.jpg') }}" type="image/x-icon" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {

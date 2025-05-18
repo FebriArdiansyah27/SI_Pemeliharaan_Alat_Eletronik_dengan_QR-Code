@@ -61,25 +61,7 @@ class UserResource extends Resource
             ]);
     }
 // Batasi akses hanya admin
-public static function canViewAny(): bool
-{
-    return auth()->check() && auth()->user()->role === 'admin';
-}
 
-public static function canCreate(): bool
-{
-    return auth()->check() && auth()->user()->role === 'admin';
-}
-
-public static function canEdit(Model $record): bool
-{
-    return auth()->check() && auth()->user()->role === 'admin';
-}
-
-public static function canDelete(Model $record): bool
-{
-    return auth()->check() && auth()->user()->role === 'admin';
-}
 
 // Sembunyikan menu dari teknisi
 
@@ -92,5 +74,30 @@ public static function canDelete(Model $record): bool
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
+ public static function canViewAny(): bool
+    {
+        return auth('web')->check() && auth('web')->user()->role === 'admin';
+    }
+
+    public static function canView($record): bool
+    {
+        return auth('web')->check() && auth('web')->user()->role === 'admin';
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth('web')->check() && auth('web')->user()->role === 'admin';
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth('web')->check() && auth('web')->user()->role === 'admin';
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth('web')->check() && auth('web')->user()->role === 'admin';
+    }
+
 }
 

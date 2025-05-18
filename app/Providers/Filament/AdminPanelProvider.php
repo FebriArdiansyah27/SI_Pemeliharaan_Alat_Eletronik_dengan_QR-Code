@@ -17,16 +17,22 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-
+use Filament\Support\Facades\FilamentView;
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        FilamentView::registerRenderHook(
+            'panels::brand',
+            fn (): string => view('filament.custom-brand')->render(),
+        );
         return $panel
             ->default()
             ->id('admin')
             ->path('admin')
             ->login()
+            ->darkMode(false)
+            ->favicon(asset('images/favicon.png'))
             ->colors([
                 'danger' => Color::Rose,
                 'gray' => Color::Gray,

@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8" />
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sistem Informasi Pemeliharaan Alat Elektronik - FT UNIB</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -173,7 +174,7 @@
             <ul style="list-style: none; display: flex; gap: 1.5rem; margin: 0; padding: 0; align-items: center;">
                 <li><a href="#beranda" style="color: white; text-decoration: none; font-weight: 600;">Beranda</a></li>
                 <li><a href="#tentang-kami" style="color: white; text-decoration: none; font-weight: 600;">Tentang Kami</a></li>
-                <li><a href="#contact" style="color: white; text-decoration: none; font-weight: 600;">Contact</a></li>
+
             </ul>
             <a href="{{ url('/admin') }}" style="background-color: white; color: #2b6cb0; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; text-decoration: none;">Login</a>
         </div>
@@ -187,7 +188,7 @@
         <a href="{{ url('/dashboard') }}">Lihat Daftar Alat</a>
     </div>
     <div class="hero-image">
-        <img src="https://images.unsplash.com/photo-1581093588401-1a1a1a1a1a1a?auto=format&fit=crop&w=800&q=80" alt="Ilustrasi pemeliharaan alat elektronik" />
+        <img src="https://th.bing.com/th/id/OIP.tr9Gwnd4PUFFvTyJxicLIAHaE8?w=266&h=180&c=7&r=0&o=5&pid=1.7" alt="Ilustrasi pemeliharaan alat elektronik" />
     </div>
 </section>
 
@@ -195,12 +196,12 @@
     <article class="feature-card" role="region" aria-labelledby="feature1-title">
         <div class="feature-icon" aria-hidden="true">🔧</div>
         <h3 id="feature1-title" class="feature-title">Manajemen Alat</h3>
-        <p class="feature-desc">Simpan data alat lengkap dengan riwayat pemeliharaan dan lokasi alat.</p>
+        <p class="feature-desc">Simpan data alat lengkap dengan informasi nama alat , nomor alat dan lokasi alat.</p>
     </article>
     <article class="feature-card" role="region" aria-labelledby="feature2-title">
         <div class="feature-icon" aria-hidden="true">📅</div>
-        <h3 id="feature2-title" class="feature-title">Jadwal Pemeliharaan</h3>
-        <p class="feature-desc">Atur jadwal pemeliharaan secara otomatis dan dapatkan notifikasi pengingat.</p>
+        <h3 id="feature2-title" class="feature-title">Pemeliharaan Pemeliharaan Alat</h3>
+        <p class="feature-desc">Tambahkan Data Pemeliharaan terbaru tentang alat dan laporkan hasil dari pemeliharaan alat.</p>
     </article>
     <article class="feature-card" role="region" aria-labelledby="feature3-title">
         <div class="feature-icon" aria-hidden="true">📊</div>
@@ -209,16 +210,6 @@
     </article>
 </section>
 
-<section id="contact" style="max-width: 1200px; margin: 3rem auto; padding: 0 1rem;">
-    <h2 style="text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 1rem;">Contact</h2>
-    <p style="text-align: center; max-width: 600px; margin: 0 auto 2rem auto; color: #4a5568;">Hubungi kami untuk informasi lebih lanjut atau bantuan.</p>
-    <form style="max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
-        <input type="text" placeholder="Nama" style="padding: 0.75rem; border-radius: 6px; border: 1px solid #cbd5e0; font-size: 1rem;" required />
-        <input type="email" placeholder="Email" style="padding: 0.75rem; border-radius: 6px; border: 1px solid #cbd5e0; font-size: 1rem;" required />
-        <textarea placeholder="Pesan" rows="4" style="padding: 0.75rem; border-radius: 6px; border: 1px solid #cbd5e0; font-size: 1rem;" required></textarea>
-        <button type="submit" style="background-color: #2b6cb0; color: white; padding: 0.75rem; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; transition: background-color 0.3s ease;">Kirim Pesan</button>
-    </form>
-</section>
 
 <footer>
     &copy; {{ date('Y') }} Fakultas Teknik Universitas Bengkulu. Sistem Pemeliharaan Alat Elektronik.

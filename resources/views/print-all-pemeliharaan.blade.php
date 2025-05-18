@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8" />
+    <link rel="icon" href="{{ asset('images/favicon.jpg') }}" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Cetak Semua Data Pemeliharaan</title>
     <style>
